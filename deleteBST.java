@@ -1,7 +1,7 @@
 package vj;
 
-public class searchBST {
-    static class Node {
+public class deleteBST {
+      static class Node {
         int data;
         Node left ;
         Node right ;
@@ -54,19 +54,55 @@ public static boolean search ( Node root, int key){
 
     }
 }
+
+public static Node delete (Node root ,int val){
+    if (root == null){
+        return null;
+    }
+    if (val < root.data){
+        root.left = delete(root.left, val);
+    }
+    else if (val > root.data){
+        root.right = delete(root.right, val);
+    }
+    else {
+        // node to be deleted found
+        if (root.left == null){
+            return root.right;
+        }
+        else if (root.right == null){
+            return root.left;
+        }
+        // both children: replace with inorder successor
+        Node IS = FindInordersucessor(root.right);
+        root.data = IS.data;
+        root.right = delete(root.right, IS.data);
+    }
+    return root;
+}
+public static Node FindInordersucessor(Node root){
+    while (root.left != null){
+        root = root.left;
+    }
+    return root;
+}
+
  public static void main ( String args []){
-    int values [] = {5,1,3,4,2,7};
+    int values [] = {8,5,3,1,4,6,10,11,14};
     Node root = null;
     for ( int i =0; i<values.length; i++){
         root = insert(root, values[i]);
     }
+    System.out.println("before deletion of node");
     inorder(root);
     System.out.println();
-    if ( search(root, 01)){
-        System.out.println("found");
-    }
-    else {
-        System.out.println("not found ");
-    }
- }
+    root = delete(root, 1);
+    System.out.println();
+System.out.println("after deletion node");
+
+        inorder(root);
+        System.out.println();
 }
+}
+
+       
